@@ -2,7 +2,7 @@
 
 <h2>🛠️ Installation Steps:</h2>
 
-<p>1. install python virtualenv</p>
+<p>1. instal python virtualenv di windows</p>
 
 ```
 pip install virtualenv 
