@@ -14,13 +14,13 @@ pip install virtualenv
 fp\Scripts\activate
 ```
 
-<p>3. keluar dari virtualenv</p>
+<p>keluar dari virtualenv</p>
 
 ```
 deactivate
 ```
 
-<p>4. jalankan program</p>
+<p>3. jalankan program</p>
 
 ```
 python app.py
