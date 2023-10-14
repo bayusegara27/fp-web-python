@@ -1,0 +1,39 @@
+h1{
+    text-align: center;
+    margin: 2%;
+}
+
+.navbar-brand{
+    font-family: Arial, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222; /* Warna latar belakang gelap */
+    color: #fff; /* Warna teks putih */
+}
+
+.card {
+    background: #333; /* Warna latar belakang kartu gelap */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    height: 90%;
+    min-height: 353px;
+}
+
+pre code {
+    display: block;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #fff;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+.buttton{
+    text-align: right;
+}

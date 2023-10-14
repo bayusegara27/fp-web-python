@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snippets</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-snippet.css') }}">
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">FP</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Snippets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/editor">Editor</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- container snippet -->
+    <div class="container mt-4">
+        <center>
+        <h1>Snippets</h1>
+        </center>
+        <div class="row">
+            {% for snippet in snippets %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ snippet.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ snippet.description }}</h6>
+                            <p class="card-text">{{ snippet.language }}</p>
+                            <pre><code>{{ snippet.code }}</code></pre>
+                            <p class="card-text">{{ snippet.documentation }}</p>
+                            <div class="buttton"><a href="#" class="btn btn-dark btn-copy" data-code="{{ snippet.code }}">Copy</a>
+                                <a href="/edit/{{ snippet.id }}" class="btn btn-dark">Edit</a>
+                                <a href="/delete/{{ snippet.id }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    <!-- copy code ke clipboard -->
+    <script>
+        document.querySelectorAll('.btn-copy').forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                var code = e.target.getAttribute('data-code');
+                var textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Code copied to clipboard');
+            });
+        });
+    </script>
+</body>
+</html>

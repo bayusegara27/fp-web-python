@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222; /* Warna latar belakang gelap */
+    color: #fff; /* Warna teks putih */
+}
+
+h1 {
+    text-align: center;
+    margin: 2%;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #333; /* Warna latar belakang gelap */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.snippet-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.card {
+    width: 30%;
+    background: #333; /* Warna latar belakang kartu gelap */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+pre code {
+    display: block;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #fff;
+}
+
+.card-body {
+    height: 300px; /* Atur ketinggian kartu sesuai kebutuhan Anda */
+    overflow: auto;
+}
+
+pre code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
