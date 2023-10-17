@@ -2,7 +2,7 @@
 
 <h2>🛠️ Installation Steps:</h2>
 
-<p>1. install python virtualenv</p>
+<p>1. instal python virtualenv di windows</p>
 
 ```
 pip install virtualenv 
@@ -14,13 +14,13 @@ pip install virtualenv
 fp\Scripts\activate
 ```
 
-<p>3. keluar dari virtualenv</p>
+<p>keluar dari virtualenv</p>
 
 ```
 deactivate
 ```
 
-<p>4. jalankan program</p>
+<p>3. jalankan program</p>
 
 ```
 python app.py
