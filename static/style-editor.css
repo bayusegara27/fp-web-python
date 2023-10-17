@@ -2,8 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #222; /* Warna latar belakang gelap */
-    color: #fff; /* Warna teks putih */
+    background-color: #222;
+    color: #fff; /* Warna teks */
 }
 
 h1 {
@@ -12,10 +12,10 @@ h1 {
 }
 
 form {
-    max-width: 400px;
+    max-width: 1296px;
     margin: 0 auto;
     padding: 20px;
-    background: #333; /* Warna latar belakang gelap */
+    background: #333;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
@@ -60,7 +60,7 @@ a {
 
 .card {
     width: 30%;
-    background: #333; /* Warna latar belakang kartu gelap */
+    background: #333;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -74,7 +74,7 @@ pre code {
 }
 
 .card-body {
-    height: 300px; /* Atur ketinggian kartu sesuai kebutuhan Anda */
+    height: 300px;
     overflow: auto;
 }
 

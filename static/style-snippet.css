@@ -11,12 +11,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #222; /* Warna latar belakang gelap */
-    color: #fff; /* Warna teks putih */
+    background-color: #222; /* Warna background */
+    color: #fff; /* Warna teks */
 }
 
 .card {
-    background: #333; /* Warna latar belakang kartu gelap */
+    background: #333; 
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);

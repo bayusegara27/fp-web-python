@@ -6,20 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style-register.css">
-    <style>
-        /* CSS for the notification */
-        .notification {
-            display: none;
-            background-color: #f44336;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
     <div class="background">
@@ -46,25 +32,27 @@
             <p>Already have an account? <a href="/login">Login</a></p>
         </div>
     </form>
-    
     <!-- Notification element -->
     <div class="notification" id="notification">
         Username or email is already in use.
     </div>
-
     <script>
-        // JavaScript to show the notification
         document.addEventListener("DOMContentLoaded", function() {
-            // Check if a notification message is present in the URL (e.g., due to a failed registration attempt)
             const urlParams = new URLSearchParams(window.location.search);
+                function hideNotification() {
+                const notification = document.getElementById("notification");
+                notification.style.display = "none";
+            }
+    
             if (urlParams.has("message")) {
                 const message = urlParams.get("message");
                 if (message === "duplicate") {
                     const notification = document.getElementById("notification");
                     notification.style.display = "block";
+                    setTimeout(hideNotification, 5000);
                 }
             }
         });
-    </script>
+    </script>    
 </body>
 </html>
