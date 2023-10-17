@@ -1,17 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Register</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style-register.css">
+    <style>
+        /* CSS for the notification */
+        .notification {
+            display: none;
+            background-color: #f44336;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Register</h1>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
     <form method="POST" action="/register">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
-        <input type="submit" value="Register">
+        <h3>Register Here</h3>
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username" name="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" name="password" required>
+
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" name="confirm_password" required>
+
+        <div class="button-container">
+            <button>Register</button>
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
     </form>
-    <p>Already have an account? <a href="/login">Login</a></p>
+    
+    <!-- Notification element -->
+    <div class="notification" id="notification">
+        Username or email is already in use.
+    </div>
+
+    <script>
+        // JavaScript to show the notification
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if a notification message is present in the URL (e.g., due to a failed registration attempt)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has("message")) {
+                const message = urlParams.get("message");
+                if (message === "duplicate") {
+                    const notification = document.getElementById("notification");
+                    notification.style.display = "block";
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Login</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style-login.css">
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
     <form method="POST" action="/login">
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="submit" value="Login">
+        <h3>Login</h3>
+
+        <label for="username">Email or Username</label>
+        <input type="text" placeholder="Email or Username" name="email" required>
+
+        <label for="username">Password</label>
+        <input type="password" placeholder="Password" name="password" required>
+
+        <div class="button-container">
+            <button>Login</button>
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
     </form>
-    <p>Don't have an account? <a href="/register">Register</a></p>
 </body>
 </html>

@@ -39,9 +39,13 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
+        identifier = request.form.get('email')
         password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
+        if '@' in identifier:
+            user = User.query.filter_by(email=identifier).first()
+        else:
+            user = User.query.filter_by(username=identifier).first()
+
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('snippets'))
@@ -54,13 +58,22 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
-        password = request.form.get('password')
-        password_hash = generate_password_hash(password, method='sha256')
-        new_user = User(username=username, email=email, password=password_hash)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account created successfully', 'success')
-        return redirect(url_for('login'))
+
+        # Check if the username or email is already in use
+        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+
+        if existing_user:
+            # Redirect to the registration page with a message indicating duplicate
+            return redirect(url_for('register', message='duplicate'))
+        else:
+            password = request.form.get('password')
+            password_hash = generate_password_hash(password, method='sha256')
+            new_user = User(username=username, email=email, password=password_hash)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created successfully', 'success')
+            return redirect(url_for('login'))
+
     return render_template('register.html')
 
 @app.route('/snippets', methods=['GET', 'POST'])
