@@ -63,7 +63,6 @@ def register():
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
 
         if existing_user:
-            # Redirect to the registration page with a message indicating duplicate
             return redirect(url_for('register', message='duplicate'))
         else:
             password = request.form.get('password')
