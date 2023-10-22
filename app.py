@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'pokoknya-rahasia'
@@ -46,12 +46,13 @@ def login():
         else:
             user = User.query.filter_by(username=identifier).first()
 
-        if user and check_password_hash(user.password, password):
+        if user and user.password == hashlib.md5(password.encode()).hexdigest():
             login_user(user)
             return redirect(url_for('snippets'))
         else:
             flash('Invalid email or password', 'error')
     return render_template('login.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -66,8 +67,8 @@ def register():
             return redirect(url_for('register', message='duplicate'))
         else:
             password = request.form.get('password')
-            password_hash = generate_password_hash(password, method='sha256')
-            new_user = User(username=username, email=email, password=password_hash)
+            password_md5 = hashlib.md5(password.encode()).hexdigest()  # Hash the password using MD5
+            new_user = User(username=username, email=email, password=password_md5)
             db.session.add(new_user)
             db.session.commit()
             flash('Account created successfully', 'success')
