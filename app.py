@@ -67,7 +67,7 @@ def register():
             return redirect(url_for('register', message='duplicate'))
         else:
             password = request.form.get('password')
-            password_md5 = hashlib.md5(password.encode()).hexdigest()  # Hash the password using MD5
+            password_md5 = hashlib.md5(password.encode()).hexdigest()
             new_user = User(username=username, email=email, password=password_md5)
             db.session.add(new_user)
             db.session.commit()
