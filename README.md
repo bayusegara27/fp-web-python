@@ -1,4 +1,6 @@
 <h1 align="center" id="title">Final Project Website</h1>
+ini adalah source code untuk final project
+
 
 <h2>🛠️ Installation Steps:</h2>
 
@@ -8,19 +10,25 @@
 pip install virtualenv 
 ```
 
-<p>2. masuk ke virtualenv</p>
+<p>2. buat virtualenv</p>
+
+```
+python -m venv fp
+```
+
+<p>3. masuk ke virtualenv</p>
 
 ```
 fp\Scripts\activate
 ```
 
-<p>keluar dari virtualenv</p>
+<p>3.2. keluar dari virtualenv</p>
 
 ```
 deactivate
 ```
 
-<p>3. jalankan program</p>
+<p>4. jalankan program</p>
 
 ```
 python app.py
