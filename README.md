@@ -4,6 +4,12 @@ ini adalah source code untuk final project
 
 <h2>🛠️ Installation Steps:</h2>
 
+<p>Clone repo</p>
+
+```
+git clone https://github.com/bayusegara27/fp-web-python.git
+```
+
 <p>1. instal python virtualenv di windows</p>
 
 ```
