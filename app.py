@@ -48,7 +48,7 @@ def login():
 
         if user and user.password == hashlib.md5(password.encode()).hexdigest():
             login_user(user)
-            return redirect(url_for('snippets'))
+            return redirect(url_for('home'))
         else:
             flash('Invalid email or password', 'error')
     return render_template('login.html')
@@ -75,6 +75,12 @@ def register():
             return redirect(url_for('login'))
 
     return render_template('register.html')
+
+@app.route('/home')
+@login_required
+def home():
+    username = current_user.username
+    return render_template('home.html', username=username)
 
 @app.route('/snippets', methods=['GET', 'POST'])
 @login_required
