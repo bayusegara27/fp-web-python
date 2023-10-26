@@ -34,7 +34,7 @@ fp\Scripts\activate
 pip install - r requirements.txt
 ```
 
-<p> keluar dari virtualenv</p>
+<p> jika ingin keluar dari virtualenv</p>
 
 ```
 deactivate
