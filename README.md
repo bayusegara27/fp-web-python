@@ -28,13 +28,19 @@ python -m venv fp
 fp\Scripts\activate
 ```
 
-<p>3.2. keluar dari virtualenv</p>
+<p>4. install requirement(penting!)</p>
+
+```
+pip install - r requirements.txt
+```
+
+<p> keluar dari virtualenv</p>
 
 ```
 deactivate
 ```
 
-<p>4. jalankan program</p>
+<p>5. jalankan program</p>
 
 ```
 python app.py
