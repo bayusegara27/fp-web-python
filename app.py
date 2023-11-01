@@ -1,7 +1,7 @@
+import hashlib
 from flask import Flask, render_template, request, redirect, url_for, flash, session, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-import hashlib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'pokoknya-rahasia'
@@ -59,10 +59,8 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
-
-        # Check if the username or email is already in use
+        # Cek jika username atau email telah digunakan
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-
         if existing_user:
             return redirect(url_for('register', message='duplicate'))
         else:
