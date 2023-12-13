@@ -33,6 +33,11 @@ class User(UserMixin):
         self.email = email
         self.password = password
 
+@app.route('/about')
+@login_required
+def about():
+    return render_template('about.html')
+
 @app.route('/')
 def index():
     return render_template('login.html')
