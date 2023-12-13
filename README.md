@@ -55,6 +55,7 @@ python3 app.py
 - [x] change Database dari SQlite ke MySQL
 - [ ] styling page shared code
 - [ ] improve styling semua page
+- [ ] improve generate link
 - [x] menambahkan template engine
 - [x] menambahkan share button
 - [x] menambahkan page shared code
