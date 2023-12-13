@@ -31,7 +31,7 @@ fp\Scripts\activate
 <p>4. install requirement(penting!)</p>
 
 ```
-pip install - r requirements.txt
+pip install -r requirements.txt
 ```
 
 <p> jika ingin keluar dari virtualenv</p>
