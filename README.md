@@ -57,6 +57,7 @@ python3 app.py
 - [ ] improve styling semua page
 - [ ] improve generate link
 - [x] menambahkan template engine
+- [ ] menambahkan template engine pada page login dan register
 - [x] menambahkan share button
 - [x] menambahkan page shared code
 - [ ] menambahkan page about
