@@ -39,8 +39,10 @@ pip install -r requirements.txt
 ```
 deactivate
 ```
+<p>5. Buat Database MySQL seperti pada [Create-Database.txt](Create-Database.txt)</p>
 
-<p>5. jalankan program</p>
+
+<p>6. jalankan program</p>
 
 ```
 python app.py

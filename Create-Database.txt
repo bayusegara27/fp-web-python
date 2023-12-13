@@ -1,0 +1,24 @@
+# COPy and paste this into your MySQL workbench to create the database and tables
+
+CREATE DATABASE final_project;
+USE final_project;
+
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(80) UNIQUE NOT NULL,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    password VARCHAR(32) NOT NULL
+
+);
+
+CREATE TABLE snippet (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    language VARCHAR(50) NOT NULL,
+    code TEXT NOT NULL,
+    documentation TEXT,
+    user_id INT,
+    share_code VARCHAR(25),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
