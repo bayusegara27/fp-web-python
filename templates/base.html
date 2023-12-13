@@ -4,6 +4,7 @@
     <title>{% block title %}{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/static/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="/static/bootstrap-4.6.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/style-snippet.css">
     {% block additional_styles %}{% endblock %}
@@ -11,7 +12,9 @@
 <body>
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/home">FP</a>
+        <a class="navbar-brand" href="/home">
+            <img src="/static/images/logo.png" alt="Logo" height="30">
+        </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item {% block home_active %}{% endblock %}">
@@ -22,6 +25,9 @@
                 </li>
                 <li class="nav-item {% block editor_active %}{% endblock %}">
                     <a class="nav-link" href="/editor">Editor</a>
+                </li>
+                <li class="nav-item {% block about_active %}{% endblock %}">
+                    <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
