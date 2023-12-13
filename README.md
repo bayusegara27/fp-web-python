@@ -60,5 +60,5 @@ python3 app.py
 - [x] menambahkan share button
 - [x] menambahkan page shared code
 - [ ] menambahkan page about
-- [ ] menambahkan page admin (kalo niat)
+- [ ] menambahkan page admin/user
 - [ ] coming soon
