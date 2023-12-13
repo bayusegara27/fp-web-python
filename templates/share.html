@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Snippet Share{% endblock %}
+
+{% block content %}
+    <center>
+        <h1>Snippet Share</h1>
+    </center>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ snippet.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ snippet.description }}</h6>
+            <p class="card-text">{{ snippet.language }}</p>
+            <pre><code>{{ snippet.code }}</code></pre>
+            <p class="card-text">{{ snippet.documentation }}</p>
+            <p class="card-text">Shareable Link: <a href="{{ url_for('share', share_id=snippet.share_id) }}">{{ url_for('share', share_id=snippet.share_id) }}</a></p>
+            <button class="btn btn-dark" onclick="copyLink()">Copy Link</button>
+            <a href="/snippets" class="btn btn-secondary">Close</a>
+        </div>
+    </div>
+
+    <script>
+        function copyLink() {
+            var linkInput = document.createElement('input');
+            linkInput.value = window.location.href;
+            document.body.appendChild(linkInput);
+            linkInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(linkInput);
+            alert('Link copied to clipboard');
+        }
+    </script>
+{% endblock %}

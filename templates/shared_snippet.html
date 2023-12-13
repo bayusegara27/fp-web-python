@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shared Snippet</title>
+</head>
+<body>
+    <h1>Shared Snippet</h1>
+    <pre><code>{{ snippet.code }}</code></pre>
+    <button onclick="copyToClipboard()">Copy Code</button>
+
+    <script>
+        function copyToClipboard() {
+            var codeElement = document.querySelector('pre code');
+            var textArea = document.createElement('textarea');
+            textArea.value = codeElement.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Code copied to clipboard');
+        }
+    </script>
+</body>
+</html>

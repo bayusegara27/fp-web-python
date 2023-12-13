@@ -1,36 +1,37 @@
 import hashlib
-from flask import Flask, render_template, request, redirect, url_for, flash, session, current_app
-from flask_sqlalchemy import SQLAlchemy
+import random
+import string
+import mysql.connector
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'pokoknya-rahasia'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-db = SQLAlchemy(app)
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="final_project"
+)
+
 login_manager = LoginManager()
-login_manager.login_view = 'login'
 login_manager.init_app(app)
-
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
-    snippets = db.relationship('Snippet', backref='author', lazy=True)
-
-class Snippet(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200))
-    language = db.Column(db.String(50), nullable=False)
-    code = db.Column(db.Text, nullable=False)
-    documentation = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM user WHERE id = %s", (user_id,))
+    user = cursor.fetchone()
+    return User(user['id'], user['username'], user['email'], user['password']) if user else None
+
+class User(UserMixin):
+    def __init__(self, id, username, email, password):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
 
 @app.route('/')
 def index():
@@ -41,34 +42,42 @@ def login():
     if request.method == 'POST':
         identifier = request.form.get('email')
         password = request.form.get('password')
+        
+        cursor = mydb.cursor(dictionary=True)
         if '@' in identifier:
-            user = User.query.filter_by(email=identifier).first()
+            cursor.execute("SELECT * FROM user WHERE email = %s", (identifier,))
         else:
-            user = User.query.filter_by(username=identifier).first()
+            cursor.execute("SELECT * FROM user WHERE username = %s", (identifier,))
 
-        if user and user.password == hashlib.md5(password.encode()).hexdigest():
-            login_user(user)
+        user = cursor.fetchone()
+
+        if user and user['password'] == hashlib.md5(password.encode()).hexdigest():
+            login_user(User(user['id'], user['username'], user['email'], user['password']))
             return redirect(url_for('home'))
         else:
             flash('Invalid email or password', 'error')
-    return render_template('login.html')
 
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
-        # Cek jika username atau email telah digunakan
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+
+        cursor = mydb.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM user WHERE username = %s OR email = %s", (username, email))
+        existing_user = cursor.fetchone()
+
         if existing_user:
             return redirect(url_for('register', message='duplicate'))
         else:
             password = request.form.get('password')
             password_md5 = hashlib.md5(password.encode()).hexdigest()
-            new_user = User(username=username, email=email, password=password_md5)
-            db.session.add(new_user)
-            db.session.commit()
+
+            cursor.execute("INSERT INTO user (username, email, password) VALUES (%s, %s, %s)", (username, email, password_md5))
+            mydb.commit()
+
             flash('Account created successfully', 'success')
             return redirect(url_for('login'))
 
@@ -89,10 +98,14 @@ def snippets():
         language = request.form.get('language')
         code = request.form.get('code')
         documentation = request.form.get('documentation')
-        new_snippet = Snippet(title=title, description=description, language=language, code=code, documentation=documentation, author=current_user)
-        db.session.add(new_snippet)
-        db.session.commit()
-    snippets = Snippet.query.filter_by(user_id=current_user.id).all()
+
+        cursor = mydb.cursor(dictionary=True)
+        cursor.execute("INSERT INTO snippet (title, description, language, code, documentation, user_id) VALUES (%s, %s, %s, %s, %s, %s)", (title, description, language, code, documentation, current_user.id))
+        mydb.commit()
+
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM snippet WHERE user_id = %s", (current_user.id,))
+    snippets = cursor.fetchall()
     return render_template('snippets.html', snippets=snippets)
 
 @app.route('/editor', methods=['GET', 'POST'])
@@ -104,26 +117,36 @@ def editor():
         language = request.form.get('language')
         code = request.form.get('code')
         documentation = request.form.get('documentation')
-        new_snippet = Snippet(title=title, description=description, language=language, code=code, documentation=documentation, author=current_user)
-        db.session.add(new_snippet)
-        db.session.commit()
+
+        cursor = mydb.cursor(dictionary=True)
+        cursor.execute("INSERT INTO snippet (title, description, language, code, documentation, user_id) VALUES (%s, %s, %s, %s, %s, %s)", (title, description, language, code, documentation, current_user.id))
+        mydb.commit()
+
         flash('Snippet added successfully', 'success')
+
     return render_template('editor.html')
 
 @app.route('/edit/<int:snippet_id>', methods=['GET', 'POST'])
 @login_required
 def edit_snippet(snippet_id):
-    snippet = Snippet.query.get(snippet_id)
-    if snippet and snippet.user_id == current_user.id:
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM snippet WHERE id = %s AND user_id = %s", (snippet_id, current_user.id))
+    snippet = cursor.fetchone()
+
+    if snippet:
         if request.method == 'POST':
-            snippet.title = request.form.get('title')
-            snippet.description = request.form.get('description')
-            snippet.language = request.form.get('language')
-            snippet.code = request.form.get('code')
-            snippet.documentation = request.form.get('documentation')
-            db.session.commit()
+            title = request.form.get('title')
+            description = request.form.get('description')
+            language = request.form.get('language')
+            code = request.form.get('code')
+            documentation = request.form.get('documentation')
+
+            cursor.execute("UPDATE snippet SET title = %s, description = %s, language = %s, code = %s, documentation = %s WHERE id = %s", (title, description, language, code, documentation, snippet_id))
+            mydb.commit()
+
             flash('Snippet updated successfully', 'success')
             return redirect(url_for('snippets'))
+
         return render_template('edit_snippet.html', snippet=snippet)
     else:
         flash('Snippet not found or unauthorized', 'error')
@@ -132,14 +155,36 @@ def edit_snippet(snippet_id):
 @app.route('/delete/<int:snippet_id>')
 @login_required
 def delete_snippet(snippet_id):
-    snippet = Snippet.query.get(snippet_id)
-    if snippet and snippet.user_id == current_user.id:
-        db.session.delete(snippet)
-        db.session.commit()
-        flash('Snippet deleted successfully', 'success')
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("DELETE FROM snippet WHERE id = %s AND user_id = %s", (snippet_id, current_user.id))
+    mydb.commit()
+
+    flash('Snippet deleted successfully', 'success')
+    return redirect(url_for('snippets'))
+
+@app.route('/generate_share_link/<int:snippet_id>')
+@login_required
+def generate_share_link(snippet_id):
+    share_code = ''.join(random.choices(string.ascii_lowercase, k=6))
+
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("UPDATE snippet SET share_code = %s WHERE id = %s AND user_id = %s", (share_code, snippet_id, current_user.id))
+    mydb.commit()
+
+    share_link = f"http://localhost:8081/share/{share_code}"
+    return share_link
+
+@app.route('/share/<share_code>')
+def shared_snippet(share_code):
+    cursor = mydb.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM snippet WHERE share_code = %s", (share_code,))
+    snippet = cursor.fetchone()
+
+    if snippet:
+        return render_template('shared_snippet.html', snippet=snippet)
     else:
         flash('Snippet not found or unauthorized', 'error')
-    return redirect(url_for('snippets'))
+        return redirect(url_for('home'))
 
 @app.route('/logout')
 @login_required
@@ -148,6 +193,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, host='0.0.0.0', port=8081)

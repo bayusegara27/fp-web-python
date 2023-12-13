@@ -1,38 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Snippets</title>
-    <link rel="stylesheet" href="/static/bootstrap-4.6.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/style-snippet.css">
-</head>
-<body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/home">FP</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/snippets">Snippets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/editor">Editor</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- container snippet -->
-    <div class="container mt-4">
-        <center>
-        <h1>Snippets.</h1>
-        </center>
+{% extends 'base.html' %}
+
+{% block title %}Snippets{% endblock %}
+{% block snippets_active %}active{% endblock %}
+{% block additional_styles %}
+    <link rel="stylesheet" href="/static/style-snippets.css">
+{% endblock %}
+
+{% block content %}
+    <center>
+        <h1>Snippets</h1>
+    </center>
+    <!-- Snippets -->
         <div class="row">
             {% for snippet in snippets %}
                 <div class="col-md-4">
@@ -43,9 +21,11 @@
                             <p class="card-text">{{ snippet.language }}</p>
                             <pre><code>{{ snippet.code }}</code></pre>
                             <p class="card-text">{{ snippet.documentation }}</p>
-                            <div class="buttton"><a href="#" class="btn btn-dark btn-copy" data-code="{{ snippet.code }}">Copy</a>
+                            <div class="buttton">
+                                <a href="#" class="btn btn-dark btn-copy" data-code="{{ snippet.code }}">Copy</a>
                                 <a href="/edit/{{ snippet.id }}" class="btn btn-dark">Edit</a>
                                 <a href="/delete/{{ snippet.id }}" class="btn btn-danger">Delete</a>
+                                <a href="#" class="btn btn-success btn-share" data-id="{{ snippet.id }}">Share</a>
                             </div>
                         </div>
                     </div>
@@ -68,6 +48,24 @@
                 alert('Code copied to clipboard');
             });
         });
+
+        document.querySelectorAll('.btn-share').forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                var snippetId = e.target.getAttribute('data-id');
+                
+                // Make an AJAX request to generate a share link
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var shareLink = xhr.responseText;
+                        // Display the share link in a popup
+                        alert('Share this link:\n' + shareLink);
+                    }
+                };
+                xhr.open('GET', '/generate_share_link/' + snippetId, true);
+                xhr.send();
+            });
+        });
     </script>
-</body>
-</html>
+{% endblock %}

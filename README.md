@@ -49,3 +49,15 @@ python app.py
 ```
 python3 app.py
 ```
+
+<h2>📃ToDo List</h2>
+
+- [x] change Database dari SQlite ke MySQL
+- [ ] styling page shared code
+- [ ] improve styling semua page
+- [x] menambahkan template engine
+- [x] menambahkan share button
+- [x] menambahkan page shared code
+- [ ] menambahkan page about
+- [ ] menambahkan page admin (kalo niat)
+- [ ] coming soon
